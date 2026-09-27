@@ -621,7 +621,14 @@ public abstract class BaseGame {
         public void run() {
             long seconds = times * interval;
             if (times > 0) {
-                broadcastKey("starting_game", seconds, getConfig().getMinimumGroups(), getConfig().getMinimumPlayers(), getGroupParticipants().size(), getParticipants().size());
+                String gameName = getConfig().getName();
+                if (getConfig().isGroupMode()) {
+                    broadcastKey("starting_game_group", gameName, seconds, getConfig().getMinimumGroups(),
+                            getGroupParticipants().size(), getParticipants().size());
+                } else {
+                    broadcastKey("starting_game_solo", gameName, seconds, getConfig().getMinimumPlayers(),
+                            getParticipants().size());
+                }
                 times--;
             } else {
                 processEnd();
